@@ -85,7 +85,7 @@ CREATE TABLE Tickets
     TechID INT NULL,
     TicketCatID INT NOT NULL,
     TicketPriorityID INT NOT NULL,
-    SlaID INT NULL,
+    SlaID INT NOT NULL,
     EstadoAtualID INT NOT NULL,
     CONSTRAINT FK_Tickets_Users
         FOREIGN KEY (UserID) REFERENCES Users(ID),
@@ -136,3 +136,26 @@ CREATE TABLE TicketIntervencao
     CONSTRAINT FK_TicketIntervencao_Techs
         FOREIGN KEY (TechID) REFERENCES Techs(ID)
 );
+
+GO
+
+CREATE TRIGGER TR_Tickets_ValidateSLA 
+ON Tickets 
+AFTER INSERT, UPDATE 
+AS 
+BEGIN
+    SET NOCOUNT ON;
+    IF EXISTS ( 
+    SELECT 1
+    FROM inserted i
+        JOIN SLAs s ON i.SlaID = s.ID
+    WHERE i.TicketCatID <> s.TicketCatID
+        OR i.TicketPriorityID <> s.TicketPriorityID
+     ) 
+     BEGIN
+        RAISERROR('SlaID não corresponde à categoria e prioridade do ticket.', 16, 1);
+        ROLLBACK TRANSACTION;
+        RETURN;
+    END
+END;
+      GO

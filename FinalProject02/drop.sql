@@ -1,27 +1,11 @@
---------
-Drop all tables
---------
-
-USE FinalProject02;
+-- Mudar para master para poder apagar a database
+USE master;
 GO
 
--- Tabelas com referencias externas
-DROP TABLE IF EXISTS TicketIntervencao;
-DROP TABLE IF EXISTS TicketEstadoHistorico;
-DROP TABLE IF EXISTS Tickets;
-DROP TABLE IF EXISTS SLAs;
-
--- Tabelas de origem
-DROP TABLE IF EXISTS TicketEstados;
-DROP TABLE IF EXISTS TicketPriority;
-DROP TABLE IF EXISTS TicketCat;
-DROP TABLE IF EXISTS Techs;
-DROP TABLE IF EXISTS Users;
-DROP TABLE IF EXISTS OrgUnits;
+-- Colocar a database em modo single_user para garantir que não está em uso
+ALTER DATABASE FinalProject02 SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
 GO
 
-USE master
-GO
-
+-- Apagar a database
 DROP DATABASE IF EXISTS FinalProject02;
 GO

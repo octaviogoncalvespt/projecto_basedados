@@ -102,9 +102,6 @@ CREATE TABLE Tickets
     -- New or must be assigned to tech
     CONSTRAINT CK_Tickets_Tecnico_Aberto
         CHECK (EstadoAtualID = 1 OR TechID IS NOT NULL),
-    -- Resolved/Closed must have DataFecho NOT NULL
-    CONSTRAINT CK_Tickets_DataFecho_Quando_Fechado
-        CHECK (EstadoAtualID NOT IN (4, 5) OR DataFecho IS NOT NULL)
 );
 
 CREATE TABLE TicketEstadoHistorico

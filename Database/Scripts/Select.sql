@@ -1,41 +1,39 @@
 -- Simple Lists --
 
-
 -- All Tickets
 SELECT *
-FROM Tickets
+FROM Tickets;
 
 -- ALL users
 SELECT *
-FROM Users
+FROM Users;
 
 -- All Techs
 SELECT *
-FROM Techs
+FROM Techs;
 
--- Specific Selects
+-- Specific Selects --
 
 -- Open Tickets
 SELECT *
 FROM Tickets
-WHERE EstadoAtualID = 1
+WHERE EstadoAtualID = 1;
 
 -- Closed Tickets
 SELECT *
 FROM Tickets
-WHERE EstadoAtualID = 5
+WHERE EstadoAtualID = 5;
 
 -- Tickets assigned to a specific Tech
 SELECT *
 FROM Tickets
-WHERE TechID = 2
+WHERE TechID = 2;
 
--- All Techs who worked on a specific Ticket
+-- All Techs who worked on a specific Ticket // USE ID OF TICKET OU WANT TO CHECK
 SELECT TicketEstadoHistorico.TicketID, TicketEstadoHistorico.EstadoID, Techs.Nome
 FROM TicketEstadoHistorico
     JOIN Techs ON TicketEstadoHistorico.TechID = Techs.ID
-WHERE TicketEstadoHistorico.TicketID = 4
--- Use ID of ticket to check
+WHERE TicketEstadoHistorico.TicketID = 4;
 
 -- Users who have tickets and how many
 SELECT
@@ -49,7 +47,7 @@ GROUP BY Tickets.UserID, Users.Nome;
 -- Interventions for a specific Ticket
 SELECT *
 FROM TicketIntervencao
-WHERE TicketID = 7
+WHERE TicketID = 7;
 
 -- High Priority Open Tickets
 SELECT *

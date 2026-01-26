@@ -138,14 +138,50 @@ CREATE TABLE TicketIntervencao
         FOREIGN KEY (TechID) REFERENCES Techs (ID)
 );
 
-
 GO
+
+-----------------------------------------------------------------------
+-- TRIGGERS --
+-----------------------------------------------------------------------
+
+-- Log updates on state of tickts
+CREATE TRIGGER TR_Update_TicketEstadoHistorico
+ON Tickets
+AFTER UPDATE
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    INSERT INTO TicketEstadoHistorico
+        (
+        TicketID,
+        EstadoID,
+        UserID,
+        TechID
+        )
+    SELECT
+        i.ID,
+        i.EstadoAtualID,
+        i.UserID,
+        i.TechID
+    FROM inserted i
+        INNER JOIN deleted d
+        ON i.ID = d.ID
+    WHERE
+        i.EstadoAtualID <> d.EstadoAtualID;
+END;
+GO
+
+
+
+
+
 -- trigger to auto-set DataFecho when state becomes Resolved (4) or Closed (5)
 CREATE TRIGGER TR_Tickets_SetDataFecho_OnResolvedClosed
     ON Tickets
     AFTER UPDATE
     AS
-BEGIN
+    BEGIN
     UPDATE t
     SET DataFecho = SYSUTCDATETIME()
     FROM Tickets t

@@ -150,8 +150,6 @@ ON Tickets
 AFTER UPDATE
 AS
 BEGIN
-    SET NOCOUNT ON;
-
     INSERT INTO TicketEstadoHistorico
         (
         TicketID,

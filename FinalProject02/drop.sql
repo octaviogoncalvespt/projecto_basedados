@@ -3,9 +3,9 @@ USE master;
 GO
 
 -- Colocar a database em modo single_user para garantir que não está em uso
-ALTER DATABASE FinalProject02 SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+ALTER DATABASE Projecto SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
 GO
 
 -- Apagar a database
-DROP DATABASE IF EXISTS FinalProject02;
+DROP DATABASE IF EXISTS Projecto;
 GO

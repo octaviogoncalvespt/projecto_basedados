@@ -1,3 +1,6 @@
+USE Projecto;
+GO
+
 -- Simple Lists --
 
 -- All Tickets
@@ -29,7 +32,7 @@ SELECT *
 FROM Tickets
 WHERE TechID = 2;
 
--- All Techs who worked on a specific Ticket // USE ID OF TICKET OU WANT TO CHECK
+-- All Techs who worked on a specific Ticket // USE ID OF TICKET YOU WANT TO CHECK
 SELECT TicketEstadoHistorico.TicketID, TicketEstadoHistorico.EstadoID, Techs.Nome
 FROM TicketEstadoHistorico
     JOIN Techs ON TicketEstadoHistorico.TechID = Techs.ID
@@ -54,3 +57,16 @@ SELECT *
 FROM Tickets t
 WHERE t.EstadoAtualID BETWEEN 1 AND 3
 ORDER BY t.TicketPriorityID DESC;
+
+-- Notes for a specific ticket and the tech who did them // USE ID OF TICKET YOU WANT TO CHECK
+
+SELECT
+    Tickets.ID,
+    TicketIntervencao.Descricao,
+    Techs.Nome AS Nome_do_técnico,
+    TicketEstados.Descricao AS Estado_atual_do_ticket
+FROM Tickets
+    JOIN TicketIntervencao ON Tickets.ID = TicketIntervencao.TicketID
+    JOIN Techs ON TicketIntervencao.TechID = Techs.ID
+    JOIN TicketEstados ON Tickets.EstadoAtualID = TicketEstados.ID
+WHERE Tickets.ID = 4;

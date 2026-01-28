@@ -54,3 +54,10 @@ SELECT *
 FROM Tickets t
 WHERE t.EstadoAtualID BETWEEN 1 AND 3
 ORDER BY t.TicketPriorityID DESC;
+
+-- See ticket, category and state
+SELECT Tickets.ID, TicketCat.Descricao, TicketEstados.Descricao
+FROM Tickets
+JOIN TicketCat ON Tickets.TicketCatID = TicketCat.ID
+JOIN TicketEstados ON Tickets.EstadoAtualID = TicketEstados.ID
+

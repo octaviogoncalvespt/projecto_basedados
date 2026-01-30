@@ -1,4 +1,4 @@
-USE Projecto;
+USE Projeto;
 GO
 
 -- Simple Lists --

@@ -1,14 +1,14 @@
--- create Projeto database
+
 use master;
 
-CREATE DATABASE Projecto;
+CREATE DATABASE Projeto;
 
 GO
 
-USE Projecto;
+USE Projeto;
 
--- create fundamental tables
-CREATE TABLE OrgUnits
+
+CREATE TABLE OrgUnits   
 
 (
     ID INT IDENTITY (1,1) PRIMARY KEY,
@@ -46,7 +46,7 @@ CREATE TABLE TicketEstados
 );
 
 
--- create dependent tables
+
 CREATE TABLE Users
 (
     ID INT IDENTITY (1,1) PRIMARY KEY,
@@ -99,7 +99,6 @@ CREATE TABLE Tickets
         FOREIGN KEY (SlaID) REFERENCES SLA (ID),
     CONSTRAINT FK_Tickets_EstadoAtual
         FOREIGN KEY (EstadoAtualID) REFERENCES TicketEstados (ID),
-    -- New or must be assigned to tech
     CONSTRAINT CK_Tickets_Tecnico_Aberto
         CHECK (EstadoAtualID = 1 OR TechID IS NOT NULL),
 );
@@ -137,7 +136,6 @@ CREATE TABLE TicketIntervencao
     CONSTRAINT FK_TicketIntervencao_Techs
         FOREIGN KEY (TechID) REFERENCES Techs (ID)
 );
-
 GO
 
 -----------------------------------------------------------------------
@@ -171,10 +169,7 @@ END;
 GO
 
 
-
-
-
--- trigger to auto-set DataFecho when state becomes Resolved (4) or Closed (5)
+-- trigger to auto-set DataFecho when state becomes Resolved or Closed
 CREATE TRIGGER TR_Tickets_SetDataFecho_OnResolvedClosed
     ON Tickets
     AFTER UPDATE
@@ -185,12 +180,10 @@ CREATE TRIGGER TR_Tickets_SetDataFecho_OnResolvedClosed
     FROM Tickets t
         JOIN inserted i ON t.ID = i.ID
         JOIN deleted d ON d.ID = i.ID
-    WHERE i.EstadoAtualID IN (4, 5) -- new state: Resolved/Closed
-        AND d.EstadoAtualID NOT IN (4, 5) -- previous state: not Resolved/Closed
+    WHERE i.EstadoAtualID IN (4, 5)
+        AND d.EstadoAtualID NOT IN (4, 5)
         AND t.DataFecho IS NULL;
--- only if still null
 END;
-
 GO
 
 -- Trigger to auto fill SladId with cat and prio
